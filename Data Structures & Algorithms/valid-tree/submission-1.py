@@ -1,0 +1,21 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        adj = [[] for _ in range(n)]
+        for u,v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+        visit=set()
+        def dfs(node, prev):
+            if node in visit:
+                # already visited -  contains cycle
+                return False
+            visit.add(node)
+            for nei in adj[node]:
+                if nei==prev:
+                    continue
+                if not dfs(nei,node):
+                    return False
+            return True
+        
+        return dfs(0,-1) and len(visit)==n
+            
